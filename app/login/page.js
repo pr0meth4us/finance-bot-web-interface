@@ -5,8 +5,8 @@ import { handleTelegramResponse } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
-
-  const onAuth = async (user) => {
+    console.log("API URL from env:", process.env.NEXT_PUBLIC_API_URL);
+    const onAuth = async (user) => {
     const isAuthenticated = await handleTelegramResponse(user);
     if (isAuthenticated) {
       router.push("/"); // Redirect to dashboard on successful login
