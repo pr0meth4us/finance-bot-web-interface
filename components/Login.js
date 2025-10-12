@@ -8,6 +8,7 @@ const Login = ({ onAuthSuccess }) => {
         // Define the callback function that Telegram will call
         window.onTelegramAuth = async (user) => {
             try {
+                // CORRECTED: The endpoint now matches the backend route /auth/verify-telegram
                 const res = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-telegram`,
                     {
@@ -28,7 +29,7 @@ const Login = ({ onAuthSuccess }) => {
                 onAuthSuccess();
             } catch (err) {
                 console.error('Verification error:', err);
-                setError('Login failed. Please try again.');
+                setError(`Login failed: ${err.message}. Please try again.`);
             }
         };
 
@@ -39,9 +40,11 @@ const Login = ({ onAuthSuccess }) => {
         script.setAttribute('data-telegram-login', process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME);
         script.setAttribute('data-size', 'large');
         script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-        // The 'data-request-access' attribute has been removed.
 
-        document.getElementById('telegram-login-container').appendChild(script);
+        const container = document.getElementById('telegram-login-container');
+        if (container) {
+            container.appendChild(script);
+        }
 
         return () => {
             // Clean up script on component unmount
