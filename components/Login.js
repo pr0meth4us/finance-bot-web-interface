@@ -39,7 +39,7 @@ const Login = ({ onAuthSuccess }) => {
         script.setAttribute('data-telegram-login', process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME);
         script.setAttribute('data-size', 'large');
         script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-        script.setAttribute('data-request-access', 'write');
+        // The 'data-request-access' attribute has been removed.
 
         document.getElementById('telegram-login-container').appendChild(script);
 
